@@ -33,6 +33,7 @@ const tasks = {
 // Using onmessage rather than addEventListener for the same reason
 // as onlick (see below).
 window.onmessage = (e) => {
+  console.log('ui.js received message', e.data);
   const id = e.data.id;
   switch (id) {
     case 'hero':
