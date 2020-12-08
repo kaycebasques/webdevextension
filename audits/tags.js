@@ -1,5 +1,4 @@
 function main(context) {
-  console.log('hello from tags.js');
   context.postMessage({
     id: 'tags', 
     pass: document.querySelector('.w-chip') ? true : false,

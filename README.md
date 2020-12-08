@@ -48,10 +48,61 @@ fix the issues:
 1. Select the directory where you cloned this repository.
 1. (Optional) [Pin the Extension](https://www.chromestory.com/2019/05/pinned-extensions/) for easy access.
 
+## Create an audit
+
+This section walks you through how to create an audit. It'll walk you through how the GIFs
+audit was created.
+
+Create `audits/gifs.js` and add the audit logic:
+
+This JavaScript runs in the context of the page. I.e. it has access to the page's DOM.
+
+Open `content.js` and add the filename of your audit to the `audits` array:
+
+```
+const audits = [
+  …
+  'gifs.js'
+  …
+];
+```
+
+Open `ui.js` and add the Markdown-formatted description of the task that the author needs
+to complete to the `tasks` object:
+
+```
+const tasks = {
+  …
+  gifs: {
+    description: '[Convert](https://web.dev/replace-gifs-with-videos/) the following GIFs to animated videos:'
+  },
+  …
+}
+```
+
+Open `ui.html` and add the UI:
+
+```
+<section id="gifs">
+  <h2>GIFs</h2>
+  <p>
+    Status: <span class="status">In progress</span>
+  </p>
+  <p class="pass">
+    The page has no GIFs.
+  </p>
+  <p class="fail">
+    The following GIFs need to be converted to animated videos:
+  </p>
+  <ul class="details"></ul>
+</section>
+```
+
 <!--
 
 ## TODO
 
+* check alt of all images
 * caniuse should link to #feat not #search
 * Replace GIFs with videos (use the LIghthouse audit)
 * Videos have playsinline attribute (and all the other attributes)
@@ -85,5 +136,7 @@ $$('a').forEach(a => {
 * Nitpick: Subhead should end with period.
 * Glitch should use `/embed/` not `/edit/`
 * (Maybe more appropriate for GitHub Bot) Contributor photos are correct dimensions
+* Check for "here" link text, or using URLs as link text
+* Enforce URLs ending with guide or tutorial (or introduction?)
 
 -->

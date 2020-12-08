@@ -1,22 +1,15 @@
-console.log('content.js');
 const audits = [
   'chromestatus.js',
   'discoverable.js',
+  'gifs.js',
   'hero.js',
   'images.js',
   'subhead.js',
   'tags.js',
-  'version.js',
   'videos.js',
   'youtube.js'
 ];
 const urls = audits.map(audit => chrome.runtime.getURL(`audits/${audit}`));
-window.addEventListener('message', e => {
-  if (e.data.id === 'urls-request') {
-    console.log('content.js has received urls-request message with following data:', e.data);
-    window.postMessage({id: 'urls-data', urls});
-  }
-});
 
 function setup() {
   function customize() {
@@ -57,7 +50,6 @@ function teardown() {
 function version() {
   const url = `https://raw.githubusercontent.com/kaycebasques/review-extension/master/manifest.json?timestamp=${Date.now()}`;
   fetch(url).then(response => response.json()).then(json => {
-    console.log(json);
     if (json.version !== chrome.runtime.getManifest().version) {
       document.querySelector('.w-extension').contentWindow.postMessage(
         {id: 'version', pass: false, code: 'new-version-available'}, '*');
@@ -81,6 +73,9 @@ window.addEventListener('message', e => {
   if (e.data.id === 'copy') {
     // https://github.com/w3c/webappsec-feature-policy/issues/322#issuecomment-618009921
     navigator.clipboard.writeText(e.data.markdown);
+  }
+  if (e.data.id === 'urls-request') {
+    window.postMessage({id: 'urls-data', urls});
   }
 });
 

@@ -1,7 +1,5 @@
 function main(context) {
-  console.log('hello from hero.js');
   const hero = document.querySelector('.w-hero');
-  console.log(hero);
   if (!hero) {
     context.postMessage({id: 'hero', pass: false, code: 'no-hero',
         task: 'Add a hero image: https://web.dev/handbook/markup-media/#hero'});

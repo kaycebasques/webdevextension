@@ -1,23 +1,20 @@
-const state = {};
 const tasks = {
   chromestatus: {
-    description: 'Fix the following `chromestatus.com` links by replacing `/features/` with `/feature/`:',
-    details: []
+    description: 'Fix the following `chromestatus.com` links by replacing `/features/` with `/feature/`:'
   },
   discoverability: {
     description: 'Make the page discoverable from either web.dev/blog (add the `blog` [tag](https://web.dev/handbook/tags#add-tags)) or a web.dev/learn collection (add it to one of the `src/site/_data/paths` JSON files).'
   },
+  gifs: {
+    description: 'Convert the following GIFs to animated videos: https://web.dev/replace-gifs-with-videos/'
+  },
+  // We could make description an object here to store the options
   hero: {
     description: undefined,
   },
   images: {
-    description: 'Resize the width of the following images to 1600px or less:',
-    details: [],
+    description: 'Resize the width of the following images to 1600px or less:'
   },
-  // links: {
-  //   description: 'Fix the following broken links:',
-  //   details: [],
-  // },
   subhead: {
     description: 'Add a subheading to the page: https://web.dev/handbook/yaml-front-matter/#subhead'
   },
@@ -25,15 +22,13 @@ const tasks = {
     description: 'Add relevant tags to the post: https://web.dev/handbook/yaml-front-matter/#tags',
   },
   youtube: {
-    description: 'Use the YouTube shortcode to embed YouTube videos: https://web.dev/handbook/markup-media/#youtube',
-    details: [],
+    description: 'Use the YouTube shortcode to embed YouTube videos: https://web.dev/handbook/markup-media/#youtube'
   }
 };
 
 // Using onmessage rather than addEventListener for the same reason
 // as onlick (see below).
 window.onmessage = (e) => {
-  console.log('ui.js received message', e.data);
   const id = e.data.id;
   switch (id) {
     case 'hero':
@@ -50,7 +45,13 @@ window.onmessage = (e) => {
       update(e.data);
       return;
   }
-  if (e.data.details) tasks[id].details.push(e.data.details);
+  // TODO we can use HTML for the description and then use that HTML in both the
+  // UI and the Markdown.
+  // if (e.data.description) tasks[id].description = e.data.description;
+  if (e.data.details) {
+    if (!tasks[id].details) tasks[id].details = [];
+    tasks[id].details.push(e.data.details);
+  }
   tasks[id].pass = e.data.pass;
   update(e.data);
 };
